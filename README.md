@@ -255,7 +255,7 @@ See also:
 
 - [OpenAPI Generator (executable)](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli)
 
-##### Usage of the `McAPI::Service.install_field_level_encryption`:
+##### Usage of the `McAPI::Encryption::OpenAPIInterceptor.install_field_level_encryption`:
 
 To use it:
 
