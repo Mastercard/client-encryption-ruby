@@ -12,7 +12,6 @@ matrix:
     - rvm: 2.4
     - rvm: 2.5
     - rvm: 2.6
-    - rvm: ruby # latest stable release
       env:
         # Do not run analysis on PR (secure env variables like SONAR_TOKEN are not always available)
         - WITH_SONAR_ANALYSIS=$([ "$TRAVIS_PULL_REQUEST" = "false" ] && echo true || echo false)
