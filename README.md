@@ -237,8 +237,7 @@ It provides generators and library templates for supporting multiple languages a
 
 The **client-encryption-ruby** library provides a method you can use to integrate the OpenAPI generated client with this library:
 ```ruby
-McAPI::Encryption::OpenAPIInterceptor
-	.install_field_level_encryption(open_api_client, config)
+McAPI::Encryption::OpenAPIInterceptor.install_field_level_encryption(open_api_client, config)
 ```
 This method will add the field level encryption in the generated OpenApi client, taking care of encrypting request and decrypting response payloads, but also of updating HTTP headers when needed, automatically, without manually calling `encrypt()`/`decrypt()` functions for each API request or response.
 
