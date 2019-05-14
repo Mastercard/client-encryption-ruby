@@ -1,0 +1,18 @@
+{
+  "request": {
+    "url": "/resource"
+  },
+  "body": {
+    "path": {
+      "to": {
+        "encryptedFoo": {
+          "encryptedData": "7d8753f5e1c813fd20fccf487801a7e53e01341b65286de3694d42784f37a0af2d966a822a974c71b5e9f4a942519ab48d4b78e06ad83f61d2fe0f871842302ec507b85e947a74f2904b522ab70cddae",
+          "iv": "e2e6dbdbeebba4650030b99274e8a31c",
+          "encryptedKey": "8816d1bce3b5e41b9d870d165abcda53cb6545c170f5fe3a46759969f9d6b65722fa3aed0f13856bd9011cb2855e1f282c7d1eb336d57992688eaf24f81a65b885948d7e08d882d6189ec082e50272c921e78afc9129c645b4372990c05b57838f4f6d94fa706fc58e55af13238b83a2f9b02c126c42b331edac547d378ea80428b2b8215caa3c0e37ecdede7259565ed4aaffed19b9634d8038a6117d788085f1955ffaa500a22a14c24d2675f73a1012723137d6ea3458aa220350fac50ca58d6c25d85e316b7e5cebcbfb525f014018336062b3abff5eeee9d0df798a5fab0c30c7873cac1c8c6741e89445f8c0b58c1347cc5da0ecf304a9f9e6aac6b44d",
+          "publicKeyFingerprint": "80810fc13a8319fcf0e2ec322c82a4c304b782cc3ce671176343cfe8160c2279",
+          "oaepHashingAlgorithm": "SHA256"
+        }
+      }
+    }
+  }
+}

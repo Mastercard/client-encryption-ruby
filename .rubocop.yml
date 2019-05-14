@@ -1,0 +1,74 @@
+AllCops:
+  TargetRubyVersion: 2.4.4
+  DisplayCopNames: true
+
+#
+# Metrics
+#
+
+Metrics/AbcSize:
+  Max: 25
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 128
+
+Metrics/LineLength:
+  Max: 130
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 50
+
+Metrics/CyclomaticComplexity:
+  Max: 15
+
+Metrics/PerceivedComplexity:
+  Max: 15
+
+Metrics/ModuleLength:
+  Max: 120
+
+#
+# Naming
+#
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
+#
+# Performance
+#
+Performance/UnfreezeString:
+  Enabled: false
+
+#
+# Style
+#
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+Style/GlobalVars:
+  Enabled: false
+
+Style/SafeNavigation:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Layout/IndentHash:
+  IndentationWidth: 4
+
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%i': '[]'
+    '%w': '[]'
+    '%W': '[]'
+
+Style/Documentation:
+  Enabled: false

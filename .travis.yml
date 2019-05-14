@@ -1,0 +1,39 @@
+language: ruby
+git:
+  depth: false  # "Shallow clone detected during the analysis"
+matrix:
+  fast_finish: true
+  include:
+    # minimum supported versions
+    - rvm: 2.4.4
+    - rvm: truffleruby-1.0.0-rc11
+    # latest releases
+    - rvm: truffleruby
+    - rvm: 2.4.6
+    - rvm: 2.5.5
+    - rvm: 2.6.3
+    - rvm: ruby # latest stable release
+      env:
+        # Do not run analysis on PR (secure env variables like SONAR_TOKEN are not always available)
+        - WITH_SONAR_ANALYSIS=$([ "$TRAVIS_PULL_REQUEST" = "false" ] && echo true || echo false)
+install:
+  - bundle install --jobs=3 --retry=3
+  - |
+    test "$WITH_SONAR_ANALYSIS" = "true" \
+       && wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip \
+       && unzip sonar-scanner-cli-$SONAR_SCANNER_VERSION.zip || echo 'Skipping Sonar Scanner installation'
+script:
+  - gem build *.gemspec
+  - gem install *.gem
+  - rake test
+after_success:
+  - |
+    test "${WITH_SONAR_ANALYSIS}" = "true" && sonar-scanner-${SONAR_SCANNER_VERSION}/bin/sonar-scanner \
+      -Dsonar.projectName=${SONAR_PROJECT_NAME} \
+      -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+      -Dsonar.organization=${SONAR_ORGANIZATION_KEY} \
+      -Dsonar.sources=./lib \
+      -Dsonar.tests=./test \
+      -Dsonar.ruby.coverage.reportPaths=coverage/.resultset.json \
+      -Dsonar.host.url=${SONAR_URL} \
+      -Dsonar.login=${SONAR_TOKEN} || echo 'Skipping Sonar Scanner execution'

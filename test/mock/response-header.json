@@ -1,0 +1,24 @@
+{
+  "request": {
+    "url": "/resource"
+  },
+  "headers": {
+    "x-iv": [
+      "3c6c68c75ba89394bbdf2d4bf2cd2e23"
+    ],
+    "x-encrypted-key": [
+      "7aabb9dcf562a784fd8a578a8ee7b89191564a46c2beb0dfc654d36e0f5595367e765ca986c917ac457168933873017c57a2cd84163c52f26f3fe22f7282f626bd55a34629ea927df2d78857d4ae03d0c4b8ae8efcdbaac659ad00bdc55fe8230338b835612634cb049ec0d878bab2d4330d5dd53a03d5e2abd2b630cd1ba2a45fb5e150e5396a74777fdefea752e0cc3951d093ebd7a1b45dbe118e4564f46a3e61639decab46e6823c43e2c2d20bcea3f86fbe3405e17d5b7cf2d70660c459d03d7b21a07bb007c60db24d36fd51ce34e730fb0c0112e778e2d8c166a2fdda0e4d156cc6356b78a87cadd61450901dc11ad78a920140bf2d53815998803222"
+    ],
+    "x-public-key-fingerprint": [
+      "80810fc13a8319fcf0e2ec322c82a4c304b782cc3ce671176343cfe8160c2279"
+    ],
+    "x-oaep-hashing-algorithm": [
+      "SHA512"
+    ]
+  },
+  "body": {
+    "encrypted_payload": {
+      "data": "bad909eceaa572bd2157288637ab18a5e85d5e99a05f2a217338f92bab5bae7ee7ec91c3c82ea60b48206eb897672119bfbc65c513b35044c663d28675f3153479a6aa737227b6d2767a868055c3972f"
+    }
+  }
+}

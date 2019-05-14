@@ -1,0 +1,5 @@
+{
+  "encrypted_payload": {
+    "data": "nVI8jjqCuCnRVF/bS7RwWPGmV34dnNKM0xBSXmWcZUGu0VW2CMgQgh4kHMxasJ8z+/S0gZ2RTESeODkRAKN5RTAoPL/d5wOFeNzWc4/1D6+Y2OoVL6Lhj8YX7+lz4UmBGe//wXInbFTzody2d1x4hxGawf9t4/ggYevdr6WMfhSObS23q/QUAe7RNmwWpFuOIS5nSnzfVTwxTuHqbPsVPg==\\\"}}\", :header_params=>{\"Accept\"=>\"application/json\", \"Content-Type\"=>\"application/json\", \"x-encrypted-key\"=>\"z9hICyBnN+X857KoYn1Ft3GOmMt+GGBcNvI+QlRmKZ2DVJgfaA9YoB96tE9SNRMux+9ZbAEARGXsnURFrcG3+xDf0XUvzwmcXqC5tZw4Xrw8LNXjZBPnHGCe7S1MY+x90BBK+pxD+LEkCIlsHYugButd8SgHehb34FQ35lJA/RuMQoQgbbqBAVdPNoFLap8HkzIMk83Kfuqe7vlZtEinFALs78JTDIah2Ytybwq83a+NXstKj8o8PvyKZEmD5QgrMnuxozSsWZso/OdS6Po5WFxpPaEIvOtsPw79SvujPlE2v1WK7yAvwNbBRvuxtXdz4mWNUNsmvpxD+Cvw1/2AQA==\", \"x-iv\"=>\"4+vu1fcirK916IukdAfn7A==\", \"x-oaep-hashing-algorithm\"=>\"SHA256\", \"x-public-key-fingerprint\"=>\"761b003c1eade3a5490e5000d37887baa5e6ec0e226c07706e599451fc032a79"
+  }
+}
