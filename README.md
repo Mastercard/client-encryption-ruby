@@ -114,17 +114,13 @@ decrypted_response_payload = fle.decrypt(encrypted_response_payload)
       "path": "/resource",
       "toEncrypt": [
         {
-          // path to element to be encrypted in request json body
           "element": "path.to.foo",
-          // path to object where to store encryption fields in request json body
           "obj": "path.to.encryptedFoo"
         }
       ],
       "toDecrypt": [
         {
-          // path to element with encryption fields in the response json body
           "element": "path.to.encryptedFoo",
-          // path to object where to store decrypted fields in response json body
           "obj": "path.to.foo"
         }
       ]
