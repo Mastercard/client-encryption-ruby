@@ -13,10 +13,8 @@ Gem::Specification.new do |spec|
   spec.files = Dir['{lib}/**/*']
   spec.require_paths = ['lib']
 
-  spec.add_development_dependency 'bundler', '~> 1.5'
-  spec.add_development_dependency 'debase', '~> 0.2.1'
+  spec.add_development_dependency 'bundler', '>= 1.5'
   spec.add_development_dependency 'minitest', '~> 5.0'
   spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'ruby-debug-ide', '~> 0.4.24'
   spec.add_development_dependency 'simplecov', '~> 0.16.1'
 end
