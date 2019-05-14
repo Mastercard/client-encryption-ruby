@@ -4,6 +4,7 @@ Gem::Specification.new do |spec|
   spec.name = 'mastercard-client-encryption'
   spec.version = '1.0.0'
   spec.authors = ['Mastercard']
+  spec.required_ruby_version = '>= 2.4.4'
 
   spec.summary = 'Mastercard encryption library'
   spec.description = 'Library for Mastercard API compliant payload encryption/decryption.'
