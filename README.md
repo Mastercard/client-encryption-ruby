@@ -131,6 +131,7 @@ decrypted_response_payload = fle.decrypt(encrypted_response_payload)
   "encryptedValueFieldName": "encryptedData",
   "dataEncoding": "hex",
   "encryptionCertificate": "./path/to/public.cert",
+  "privateKey": "./path/to/your/private.key",
   "oaepPaddingDigestAlgorithm": "SHA-256"
 }
 ```
