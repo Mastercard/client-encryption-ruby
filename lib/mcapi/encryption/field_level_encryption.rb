@@ -81,6 +81,7 @@ module McAPI
 
       def encrypt_with_body(path, body)
         elem = elem_from_path(path['element'], body)
+        return unless elem && elem[:node]
         encrypted_data = @crypto.encrypt_data(data: JSON.generate(elem[:node]))
         McAPI::Utils.mutate_obj_prop(path['obj'], encrypted_data, body)
         McAPI::Utils.delete_node(path['element'], body) if path['element'] != "#{path['obj']}.#{@config['encryptedValueFieldName']}"
@@ -88,6 +89,7 @@ module McAPI
 
       def encrypt_with_header(path, enc_params, header, body)
         elem = elem_from_path(path['element'], body)
+        return unless elem && elem[:node]
         encrypted_data = @crypto.encrypt_data(data: JSON.generate(elem[:node]), encryption_params: enc_params)
         body = { path['obj'] => { @config['encryptedValueFieldName'] => encrypted_data[@config['encryptedValueFieldName']] } }
         set_header(header, enc_params)
