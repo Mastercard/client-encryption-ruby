@@ -125,4 +125,23 @@ class TestPayloadEncryption < Minitest::Test
     assert_equal body['path']['to']['foo']['accountNumber'], '5123456789012345'
     assert !body['path']['to']['encryptedFoo']
   end
+
+  def test_decrypt_primitive_type
+    fle = McAPI::Encryption::FieldLevelEncryption.new(@test_config)
+    body = JSON.parse(JSON.generate(
+        data: {
+            encryptedValue:
+                '982f5df1dfff3cc551a49091140cbb22',
+            iv: '6f38f3ecd8b92c2fd2537a7235deb9a8',
+            encryptedKey:
+                'aebc427a2ecefc748f7f42e34a1ea6592ea20a299c107df5655483bd6ae11f9de72cb407ea0342bcac7cc29e7e9bbfbfadf8209c1f7ae2429d6f8a914d161c8a91890b3d0363b1bdd80be64712fdd6ea35496649be05e0f87001185dd79fe7a7e23c716348afe27500aaacc2cbba89793a437ae5103170fd04f0e5b4f73089c0660b44506780346e84bfb6de183f15f49132bafac651f4b4e1fadc55205d3773877c4de02c0825d7ee0b44fd3f8bb4382b999237e190352e9199eceb209fe4a91ab88fa9b4988a1a9265be38582667784da83a8ec7c307e027884d49e76771dc4a4fb472e771324f72d24299f8f621d9501d6fd59de08ccce39f533a15e17022',
+            publicKeyFingerprint:
+                '80810fc13a8319fcf0e2ec322c82a4c304b782cc3ce671176343cfe8160c2279',
+            oaepHashingAlgorithm: 'SHA512'
+        }
+    ))
+    fle.send :decrypt_with_body, JSON.parse(JSON.generate(element: 'data', obj: 'data')), body
+    assert body['data']
+    assert_equal body['data'], 'string'
+  end
 end

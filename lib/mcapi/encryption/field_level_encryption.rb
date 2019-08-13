@@ -99,10 +99,15 @@ module McAPI
       def decrypt_with_body(path, body)
         elem = elem_from_path(path['element'], body)
         return unless elem && elem[:node]
+        decrypted = @crypto.decrypt_data(elem[:node][@config['encryptedValueFieldName']],
+                                 elem[:node][@config['ivFieldName']],
+                                 elem[:node][@config['encryptedKeyFieldName']])
+        begin
+          decrypted = JSON.parse(decrypted)
+        rescue JSON::ParserError
+          # ignored
+        end
 
-        decrypted = JSON.parse(@crypto.decrypt_data(elem[:node][@config['encryptedValueFieldName']],
-                                                    elem[:node][@config['ivFieldName']],
-                                                    elem[:node][@config['encryptedKeyFieldName']]))
         McAPI::Utils.mutate_obj_prop(path['obj'], decrypted, body, path['element'], @encryption_response_properties)
       end
 
