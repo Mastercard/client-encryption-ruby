@@ -6,7 +6,7 @@ matrix:
   include:
     # minimum supported versions
     - rvm: 2.4.4
-    - rvm: truffleruby-1.0.0-rc11
+    - rvm: truffleruby-19.3.1
     # latest releases
     - rvm: truffleruby
     - rvm: 2.4
