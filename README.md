@@ -142,7 +142,7 @@ For all config options, please see:
 
 We have a predefined set of configurations to use with Mastercard services:
 
-- [Service Configurations](https://github.com/Mastercard/client-encryption-ruby/wiki/Service-Configurations-for-Client-Encryption-Ruby)
+- [Service configurations](https://github.com/Mastercard/client-encryption-ruby/wiki/Service-Configurations-for-Client-Encryption-Ruby)
 
 
 
