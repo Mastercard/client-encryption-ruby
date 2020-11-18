@@ -20,11 +20,11 @@ module McAPI
       def initialize(config)
         valid_config?(config)
         @encoding = config['dataEncoding']
-        @cert = OpenSSL::X509::Certificate.new(File.read(config['encryptionCertificate']))
+        @cert = OpenSSL::X509::Certificate.new(IO.binread(config['encryptionCertificate']))
         if config['privateKey']
-          @private_key = OpenSSL::PKey.read(File.new(config['privateKey']))
+          @private_key = OpenSSL::PKey.read(IO.binread(config['privateKey']))
         elsif config['keyStore']
-          @private_key = OpenSSL::PKCS12.new(File.read(config['keyStore']), config['keyStorePassword']).key
+          @private_key = OpenSSL::PKCS12.new(IO.binread(config['keyStore']), config['keyStorePassword']).key
         end
         @oaep_hashing_alg = config['oaepPaddingDigestAlgorithm']
         @encrypted_value_field_name = config['encryptedValueFieldName']
