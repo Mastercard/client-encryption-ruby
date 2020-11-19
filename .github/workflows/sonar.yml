@@ -32,8 +32,8 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: |
         sonar-scanner-3.3.0.1492/bin/sonar-scanner \
-          -Dsonar.projectName=oauth1-signer-ruby \
-          -Dsonar.projectKey=Mastercard_oauth1-signer-ruby \
+          -Dsonar.projectName=client-encryption-ruby \
+          -Dsonar.projectKey=Mastercard_client-encryption-ruby \
           -Dsonar.organization=mastercard \
           -Dsonar.sources=./lib \
           -Dsonar.tests=./tests \
