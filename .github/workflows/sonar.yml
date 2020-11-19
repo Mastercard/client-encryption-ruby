@@ -36,7 +36,7 @@ jobs:
           -Dsonar.projectKey=Mastercard_client-encryption-ruby \
           -Dsonar.organization=mastercard \
           -Dsonar.sources=./lib \
-          -Dsonar.tests=./tests \
+          -Dsonar.tests=./test \
           -Dsonar.ruby.coverage.reportPaths=coverage/.resultset.json \
           -Dsonar.host.url=https://sonarcloud.io \
           -Dsonar.login=$SONAR_TOKEN
