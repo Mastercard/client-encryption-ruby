@@ -1,0 +1,42 @@
+name: Sonar
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 2.7
+    - name: Install dependencies
+      run: | 
+        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492.zip
+        unzip sonar-scanner-cli-3.3.0.1492.zip
+        bundle install --jobs=3 --retry=3
+    - name: Run tests
+      run: |
+        gem build *.gemspec
+        gem install *.gem
+        rake test
+    - name: Sonar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        sonar-scanner-3.3.0.1492/bin/sonar-scanner \
+          -Dsonar.projectName=oauth1-signer-ruby \
+          -Dsonar.projectKey=Mastercard_oauth1-signer-ruby \
+          -Dsonar.organization=mastercard \
+          -Dsonar.sources=./lib \
+          -Dsonar.tests=./tests \
+          -Dsonar.ruby.coverage.reportPaths=coverage/.resultset.json \
+          -Dsonar.host.url=https://sonarcloud.io \
+          -Dsonar.login=$SONAR_TOKEN
