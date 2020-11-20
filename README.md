@@ -1,6 +1,6 @@
 # client-encryption-ruby
 
-[![](https://travis-ci.org/Mastercard/client-encryption-ruby.svg?branch=master)](https://travis-ci.org/Mastercard/client-encryption-ruby)
+[![](https://github.com/Mastercard/client-encryption-ruby/workflows/Build%20&%20Test/badge.svg)](https://github.com/Mastercard/client-encryption-ruby/actions?query=workflow%3A%22Build+%26+Test%22)
 [![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_client-encryption-ruby&metric=alert_status)](https://sonarcloud.io/dashboard?id=Mastercard_client-encryption-ruby)
 [![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_client-encryption-ruby&metric=coverage)](https://sonarcloud.io/dashboard?id=Mastercard_client-encryption-ruby)
 [![](https://sonarcloud.io/api/project_badges/measure?project=Mastercard_client-encryption-ruby&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=Mastercard_client-encryption-ruby)
