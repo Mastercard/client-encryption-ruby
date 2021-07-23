@@ -1,48 +1,50 @@
 name: Sonar
-
-on:
+'on':
   push:
-    branches: [ master ]
+    branches:
+      - main
   pull_request:
-    branches: [ master ]
+    branches:
+      - main
   schedule:
-    - cron: "0 16 * * *"
-
+    - cron: 0 16 * * *
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: 2.7
-    - name: Setup java
-      uses: actions/setup-java@v1
-      with:
-        java-version: '11'
-    - name: Install dependencies
-      run: | 
-        wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492.zip
-        unzip sonar-scanner-cli-3.3.0.1492.zip
-        bundle install --jobs=3 --retry=3
-    - name: Run tests
-      run: |
-        gem build *.gemspec
-        gem install *.gem
-        rake test
-    - name: Sonar
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      run: |
-        sonar-scanner-3.3.0.1492/bin/sonar-scanner \
-          -Dsonar.projectName=client-encryption-ruby \
-          -Dsonar.projectKey=Mastercard_client-encryption-ruby \
-          -Dsonar.organization=mastercard \
-          -Dsonar.sources=./lib \
-          -Dsonar.tests=./test \
-          -Dsonar.ruby.coverage.reportPaths=coverage/.resultset.json \
-          -Dsonar.host.url=https://sonarcloud.io \
-          -Dsonar.login=$SONAR_TOKEN
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - name: Setup java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Install dependencies
+        run: >
+          wget
+          https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492.zip
+
+          unzip sonar-scanner-cli-3.3.0.1492.zip
+
+          bundle install --jobs=3 --retry=3
+      - name: Run tests
+        run: |
+          gem build *.gemspec
+          gem install *.gem
+          rake test
+      - name: Sonar
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          SONAR_TOKEN: '${{ secrets.SONAR_TOKEN }}'
+        run: |
+          sonar-scanner-3.3.0.1492/bin/sonar-scanner \
+            -Dsonar.projectName=client-encryption-ruby \
+            -Dsonar.projectKey=Mastercard_client-encryption-ruby \
+            -Dsonar.organization=mastercard \
+            -Dsonar.sources=./lib \
+            -Dsonar.tests=./test \
+            -Dsonar.ruby.coverage.reportPaths=coverage/.resultset.json \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=$SONAR_TOKEN

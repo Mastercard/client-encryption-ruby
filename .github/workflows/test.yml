@@ -1,32 +1,35 @@
 name: Build & Test
-
-on:
+'on':
   push:
-    branches: [ master ]
+    branches:
+      - main
   pull_request:
-    branches: [ master ]
+    branches:
+      - main
   schedule:
-    - cron: "0 16 * * *"
-
+    - cron: 0 16 * * *
 jobs:
   test:
-
     runs-on: ubuntu-latest
-    
     strategy:
       matrix:
-        rvm: [2.4.4, truffleruby, 2.4, 2.5, 2.6, 2.7]
-
+        rvm:
+          - 2.4.4
+          - truffleruby
+          - 2.4
+          - 2.5
+          - 2.6
+          - 2.7
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.rvm }}
-    - name: Install dependencies
-      run: bundle install --jobs=3 --retry=3
-    - name: Run tests
-      run: |
-        gem build *.gemspec
-        gem install *.gem
-        rake test
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '${{ matrix.rvm }}'
+      - name: Install dependencies
+        run: bundle install --jobs=3 --retry=3
+      - name: Run tests
+        run: |
+          gem build *.gemspec
+          gem install *.gem
+          rake test
