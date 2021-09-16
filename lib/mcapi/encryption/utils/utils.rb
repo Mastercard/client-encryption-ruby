@@ -66,22 +66,27 @@ module McAPI
     def self.mutate_obj_prop(path, value, obj, src_path = nil, properties = [])
       tmp = obj
       prev = nil
-      return unless path
+      return obj unless path
 
       delete_node(src_path, obj, properties) if src_path
       paths = path.split('.')
-      paths.each do |e|
-        tmp[e] = {} unless tmp[e]
-        prev = tmp
-        tmp = tmp[e]
+      unless path == '$'
+        paths.each do |e|
+          tmp[e] = {} unless tmp[e]
+          prev = tmp
+          tmp = tmp[e]
+        end
       end
       elem = path.split('.').pop
-      if value.is_a?(Hash) && !value.is_a?(Array)
+      if elem == '$'
+        obj = value # replace root
+      elsif value.is_a?(Hash) && !value.is_a?(Array)
         prev[elem] = {} unless prev[elem].is_a?(Hash)
         override_props(prev[elem], value)
       else
         prev[elem] = value
       end
+      obj
     end
 
     def self.override_props(target, obj)
@@ -105,6 +110,7 @@ module McAPI
         obj = obj[e]
         prev.delete(to_delete) if obj && index == paths.size - 1
       end
+      obj.keys.each { |e| obj.delete(e) } if paths.length == 1 && paths[0] == '$'
       properties.each { |e| obj.delete(e) } if paths.empty?
     end
 
