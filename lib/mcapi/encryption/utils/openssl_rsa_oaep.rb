@@ -51,7 +51,7 @@ module OpenSSL
       em = str.bytes
       raise OpenSSL::PKey::RSAError if em.size < 2 * mdlen + 2
 
-      # Keep constant calculation even if the text is invaid in order to avoid attacks.
+      # Keep constant calculation even if the text is invalid in order to avoid attacks.
       good = secure_byte_is_zero(em[0])
       masked_seed = em[1...1 + mdlen].pack('C*')
       masked_db = em[1 + mdlen...em.size].pack('C*')

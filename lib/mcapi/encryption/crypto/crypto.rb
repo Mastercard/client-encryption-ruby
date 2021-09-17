@@ -37,8 +37,8 @@ module McAPI
       #
       # Generate encryption parameters.
       #
-      # @param [String] iv IV to use instead to generate a random IV
-      # @param [String] secret_key Secret Key to use instead to generate a random key
+      # @param [String,nil] iv IV to use instead to generate a random IV
+      # @param [String,nil] secret_key Secret Key to use instead to generate a random key
       #
       # @return [Hash] hash with the generated encryption parameters
       #
@@ -70,8 +70,8 @@ module McAPI
       # If +iv+, +secret_key+, +encryption_params+ and +encoding+ are not provided, randoms will be generated.
       #
       # @param [String] data json string to encrypt
-      # @param [String] (optional) iv Initialization vector to use to create the cipher, if not provided generate a random one
-      # @param [String] (optional) encryption_params encryption parameters
+      # @param [String,nil] (optional) iv Initialization vector to use to create the cipher, if not provided generate a random one
+      # @param [String,nil] (optional) encryption_params encryption parameters
       # @param [String] encoding encoding to use for the encrypted bytes (hex or base64)
       #
       # @return [String] encrypted data
@@ -103,11 +103,12 @@ module McAPI
       # @param [String] iv Initialization vector to use to create the Decipher
       # @param [String] encrypted_key Encrypted key to use to decrypt the data
       #                 (the key is the decrypted using the provided PrivateKey)
+      # @param [String] oaep_hashing_alg OAEP Algorithm to use
       #
       # @return [String] Decrypted JSON object
       #
-      def decrypt_data(encrypted_data, iv, encrypted_key)
-        md = Utils.create_message_digest(@oaep_hashing_alg)
+      def decrypt_data(encrypted_data, iv, encrypted_key, oaep_hashing_alg)
+        md = Utils.create_message_digest(oaep_hashing_alg)
         decrypted_key = @private_key.private_decrypt_oaep(Utils.decode(encrypted_key, @encoding), '', md, md)
         aes = OpenSSL::Cipher::AES.new(decrypted_key.size * 8, :CBC)
         aes.decrypt
@@ -121,7 +122,7 @@ module McAPI
       #
       # Compute the fingerprint for the provided public key
       #
-      # @param [String] type: +certificate+ or +publickey+
+      # @param [Hash] type: +certificate+ or +publickey+
       #
       # @return [String] the computed fingerprint encoded using the configured encoding
       #
