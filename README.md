@@ -177,9 +177,9 @@ Output:
         "to": {
             "encryptedFoo": {
                 "iv": "7f1105fb0c684864a189fb3709ce3d28",
-                "encryptedKey": "67f467d1b653d98411a0c6d3c(...)ffd4c09dd42f713a51bff2b48f937c8",
-                "encryptedData": "b73aabd267517fc09ed72455c2(...)dffb5fa04bf6e6ce9ade1ff514ed6141",
-                "publicKeyFingerprint": "80810fc13a8319fcf0e2e(...)82cc3ce671176343cfe8160c2279",
+                "encryptedKey": "67f467d1b653d98411a0c6d3c…ffd4c09dd42f713a51bff2b48f937c8",
+                "encryptedData": "b73aabd267517fc09ed72455c2…dffb5fa04bf6e6ce9ade1ff514ed6141",
+                "publicKeyFingerprint": "80810fc13a8319fcf0e2e…82cc3ce671176343cfe8160c2279",
                 "oaepHashingAlgorithm": "SHA256"
             }
         }
@@ -206,10 +206,10 @@ response[:body] =
     to: {
       encryptedFoo: {
         iv: 'e5d313c056c411170bf07ac82ede78c9',
-        encryptedKey: 'e3a56746c0f9109d18b3a2652b76(...)f16d8afeff36b2479652f5c24ae7bd',
-        encryptedData: '809a09d78257af5379df0c454dcdf(...)353ed59fe72fd4a7735c69da4080e74f',
+        encryptedKey: 'e3a56746c0f9109d18b3a2652b76…f16d8afeff36b2479652f5c24ae7bd',
+        encryptedData: '809a09d78257af5379df0c454dcdf…353ed59fe72fd4a7735c69da4080e74f',
         oaepHashingAlgorithm: 'SHA256',
-        publicKeyFingerprint: '80810fc13a8319fcf0e2e(...)3ce671176343cfe8160c2279'
+        publicKeyFingerprint: '80810fc13a8319fcf0e2e…3ce671176343cfe8160c2279'
       }
     }
   }
@@ -249,14 +249,14 @@ This method will add the field level encryption in the generated OpenApi client,
 OpenAPI client can be generated, starting from your OpenAPI Spec / Swagger using the following command:
 
 ```shell
-java -jar openapi-generator-cli.jar generate -i openapi-spec.yaml -l ruby -o out
+openapi-generator-cli generate -i openapi-spec.yaml -l ruby -o out
 ```
 
 Client library will be generated in the `out` folder.
 
 See also: 
 
-- [OpenAPI Generator (executable)](https://mvnrepository.com/artifact/org.openapitools/openapi-generator-cli)
+- [OpenAPI Generator CLI Installation](https://openapi-generator.tech/docs/installation/)
 
 ##### Usage of the `McAPI::Encryption::OpenAPIInterceptor.install_field_level_encryption`:
 
@@ -288,11 +288,11 @@ To use it:
 
    ```ruby
    api_instance = OpenApiService::ServiceApi.new @api_client
-   body = # ... #
+   body = # … #
    response = api_instance.create_merchants(body)
    # requests and responses will be automatically encrypted and decrypted
    # accordingly with the configuration object used
    
-   # ... use the (decrypted) response object here ... 
+   # … use the (decrypted) response object here … 
    ```
 
