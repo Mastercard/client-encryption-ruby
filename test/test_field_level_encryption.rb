@@ -223,4 +223,58 @@ class TestFieldLevelEncryption < Minitest::Test
 
     assert_equal JSON.generate(decrypted['body']), '{"path":{"to":{"foo":[{},{}]}}}'
   end
+
+  def test_decrypt_new_payload_new_key
+
+    # GIVEN
+    config = JSON.parse(File.read('./test/mock/new_config.json'))
+    encrypted_resp = JSON.generate(
+      request: {
+        url: '/dummy/*'
+      },
+      body: {
+        encryptedCard: {
+          encryptedValue: 'wdm1t9dqCzz03QXgpfGCMzdMU8aP9hscM9txcoqTtYlxQcNrST9TiGJhpP/4K0kPBdbI3VWGq6CnRX6hUajV9+wjnUBVqxllfY4ZuIfyiVvRgezId3Gk940oNvVM903DFTZEF/Ba1Xz/RLNNY82iXjShd7feAQdL5FUDTN+wZaOJHP8jCtz/Kt3at4RfYBnb',
+          iv: 'CXg94AiVHN0BRKJT6IyFsQ==',
+          encryptedKey: 'D8V7PtPuLHYDpAbLg6j0HKbZBaJssDfrToSCoadX5dm0xoAIWn/wSWRLxdeVuug7lP0gSh9rzXbpTMA1B1qhtka+K5sfgONb7mqBMgLTdMyieM3IFX50j9kIgq9nHbOYJTVsmfR06lgBL+50hIpw05+k5+ZnzcM78VNzKVSGqym+37SOXQPutQ3jdRVzuSQMJLJZnCvi0fzrX2T4kE59R9CqQKRNcHgdygOFULuUBY0bpFvtI7oLaOWBsRNm8yOE4/7eYUGxinSpg+EtpmZPW/LPKnUZDPrbSqbeH0y70JAC/QoBCtUc/ORUXqHhHoU0Ml0tCuHmFe3BKCKg8JClqw==',
+          oaepPaddingDigestAlgorithm: 'SHA256',
+          publicKeyFingerprint: '25d4f32059d87c573ecd1cdacf79fce2b3fb26c1e43a6e298b35bd79f87057a4'
+        }
+      }
+    )
+
+    # WHEN
+    fle = McAPI::Encryption::FieldLevelEncryption.new(config)
+    decrypted = JSON.parse(fle.decrypt(encrypted_resp))
+
+    # THEN
+    assert decrypted['body']['card']['nameOnCard'].include?("Lee Cardholder")
+  end
+
+  def test_decrypt_old_payload_old_key
+
+    # GIVEN
+    config = JSON.parse(File.read('./test/mock/old_config.json'))
+    encrypted_resp = JSON.generate(
+      request: {
+        url: '/dummy/*'
+      },
+      body: {
+        encryptedCard: {
+          encryptedValue: 'W6wmtjC853XXJxrGTlBz8HkgnDHfpIjxeaKFFoPQdZmcYSdXG5qT304QAIGmga/cvMhbmn9ov4WmBEw8mFeWMJn/ceGNE3Q2N+rBH+gu2F8LWcXvPRmpYdkDklV2XzN0Pa7aR96jywSUpVkjLHH/9+JZXJUSrGEfU5s55xQJcHbGUmOobPauwChSYTi9RTHG',
+          iv: 'ckyE+6fXXq/lsl/VfXjlvQ==',
+          encryptedKey: 'UZPFKfuKGQY4SYb/jjBkGx9hBEBO3hzmP/LtkWBZ94RXFeYNrlT4HDPC/OOoi7C/MMoAW3ucQFzAm5c8V+YUtmFEOgI7sXZ8eW2A6Z1jOG0mYBZAvr87WQ1Iq/tZEIuP/lzczpm26OG29EHMzuXldAxQD/jvyqF5UqTXmm0OngFuwUy4Na/YTEo1Q0MeCJvF+lfew3bpPJc6DMMVLTX2Rl5R7Qqmt8nCF6WpV9Cp9gDo6BIyVG9e5jfVI8GLl6IvSxhfGoujBthu9wIii7Bd+JeJxwPSgHhxNXqgwq09F6rhwvbbJLufSCfjmqFGwsDXr5+4QERGOri6M45/xlKlVg==',
+          oaepPaddingDigestAlgorithm: 'SHA256',
+          publicKeyFingerprint: '4ff086300af7150bf460d8ad43d28046aa332665dab7b229f93356d9138bff28'
+        }
+      }
+    )
+
+    # WHEN
+    fle = McAPI::Encryption::FieldLevelEncryption.new(config)
+    decrypted = JSON.parse(fle.decrypt(encrypted_resp))
+
+    # THEN
+    assert decrypted['body']['card']['nameOnCard'].include?("Lee Cardholder")
+  end
 end

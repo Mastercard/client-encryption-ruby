@@ -1,0 +1,28 @@
+{
+  "paths": [
+    {
+      "path": "/dummy/*",
+      "toEncrypt": [],
+      "toDecrypt": [
+        {
+          "element": "encryptedCard",
+          "obj": "card"
+        }
+      ]
+    }
+  ],
+  "ivFieldName": "iv",
+  "encryptedKeyFieldName": "encryptedKey",
+  "encryptedValueFieldName": "encryptedValue",
+
+  "dataEncoding": "base64",
+  "publicKeyFingerprintType": "publicKey",
+  "publicKeyFingerprintFieldName": "publicKeyFingerprint",
+  "keyStore": "./test/res/test-key-old.p12",
+  "keyStoreAlias": "keyalias",
+  "keyStorePassword": "keystorepassword$1",
+  "oaepPaddingDigestAlgorithm": "SHA-256",
+  "oaepHashingAlgorithmFieldName": "oaepPaddingDigestAlgorithm",
+  "encryptionCertificate": "./test/res/test_certificate.cert",
+  "oaepPaddingDigestAlgorithmFieldName": "oaepPaddingDigestAlgorithm"
+}
