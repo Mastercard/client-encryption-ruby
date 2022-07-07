@@ -1,0 +1,16 @@
+{
+  "request": {
+    "url": "/mappings"
+  },
+  "body": {
+    "mapping": {
+      "customer_name":{
+        "first_name":"John",
+        "last_name":"Doe"
+      }
+    },
+    "encrypted_payload":{
+      "encrypted_data":"eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiNzYxYjAwM2MxZWFkZTNhNTQ5MGU1MDAwZDM3ODg3YmFhNWU2ZWMwZTIyNmMwNzcwNmU1OTk0NTFmYzAzMmE3OSIsImN0eSI6ImFwcGxpY2F0aW9uL2pzb24ifQ.sK8BJFiBR8Oc-_nZsmQB1neIaPuq_mBXZ2vFejEWL4RBa0ukE-VMEMV8fESGgUqGQydTfddl_PSTquFJLqpAXbcBqF_n1kGL08hMPPBDB3ppiF_yEc4uRUCR3-8F8qJpGeomRd2Q-jSpPzk_6Gb7IF4oIxoQK3-xI2j6bOnfgo_RkHAXocCSGqbsLc0CnyHRyM7MzGdKJ2PvyC8PMqDbKJI-Ga9i0QxVKMDKEMwXDYF7qv_3aMpDq_F0ccMNWbEbmz7xAin17rM-YeGzPQC1_p0ksKFLv4hzPnADp4Zz_77tE_pRMV872D_afWPOchFGlswiBgkGRj1psWEGpPt_Fw.FMj5jInYY2q_TrcD.TjfmLsTWGlVKqPMd.pcKou3iQRay9OyRyi4-a7Q"
+    }
+  }
+}

@@ -58,6 +58,7 @@ Content-Type: application/json
 
   def setup
     @config = JSON.parse(File.read('./test/mock/config-interceptor.json'))
+    @jwe_config = JSON.parse(File.read('./test/mock/jwe-config.json'))
   end
 
   def test_intercept_request_nil_opts
@@ -98,5 +99,55 @@ Content-Type: application/json
     assert decrypted.options[:response_body]
     decrypted = JSON.parse(decrypted.options[:response_body])
     assert_equal decrypted['mapping']['merchant']['name'], 'LAWN MOWER SERVICE'
+  end
+
+  def test_intercept_jwe_request_nil_opts
+    api_client = MockApiClient.new
+    McAPI::Encryption::OpenAPIInterceptor.install_jwe_encryption(api_client, @jwe_config)
+    resp = api_client.call_api('GET', '/resource', nil)
+    assert_nil(resp)
+  end
+
+  def test_intercept_jwe_request_field_level
+    api_client = MockApiClient.new
+    McAPI::Encryption::OpenAPIInterceptor.install_jwe_encryption(api_client, @jwe_config)
+    opts = {}
+    opts[:body] = BODY
+    resp = api_client.call_api('GET', '/mappings/mappingId', opts)
+    assert resp[:body]
+    assert !JSON.parse(resp[:body])['encrypted_payload']['encrypted_data'].empty?
+    assert !JSON.parse(resp[:body])['mapping'].empty?
+  end
+
+  def test_intercept_jwe_request_entire_payload
+    api_client = MockApiClient.new
+    McAPI::Encryption::OpenAPIInterceptor.install_jwe_encryption(api_client, @jwe_config)
+    opts = {}
+    opts[:body] = BODY
+    resp = api_client.call_api('GET', '/resource', opts)
+    assert resp[:body]
+    assert !JSON.parse(resp[:body])['encrypted_data'].empty?
+    assert !JSON.parse(resp[:body])['mapping']
+  end
+
+  def test_intercept_jwe_response_nil
+    api_client = MockApiClient.new
+    McAPI::Encryption::OpenAPIInterceptor.install_jwe_encryption(api_client, @jwe_config)
+    assert_nil api_client.deserialize(nil, nil)
+  end
+
+  def test_intercept_jwe_response
+    config = Config.new
+    config.base_url = 'https://api.mastercard.com/example_api'
+    api_client = MockApiClient.new(config)
+    McAPI::Encryption::OpenAPIInterceptor.install_jwe_encryption(api_client, @jwe_config)
+    response_body = JSON.generate(JSON.parse(File.read('./test/mock/jwe-response-interceptor.json')))
+    response = Response.new('https://api.mastercard.com/example_api/mappings/search', response_body)
+    decrypted = api_client.deserialize(response, Response)
+    assert decrypted
+    assert decrypted.options
+    assert decrypted.options[:response_body]
+    decrypted = JSON.parse(decrypted.options[:response_body])
+    assert_equal decrypted['mapping']['customer_identifier'], 'CUST_12345'
   end
 end

@@ -1,0 +1,12 @@
+{
+  "mapping":{
+    "merchant":{
+      "name":"LAWN MOWER SERVICE",
+      "mastercard_assigned_id":"354315",
+      "merchant_category_code":"4563"
+    }
+  },
+  "encrypted_payload":{
+    "encrypted_data":"eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiNzYxYjAwM2MxZWFkZTNhNTQ5MGU1MDAwZDM3ODg3YmFhNWU2ZWMwZTIyNmMwNzcwNmU1OTk0NTFmYzAzMmE3OSIsImN0eSI6ImFwcGxpY2F0aW9uL2pzb24ifQ.AggQtaROLfO9Wu_TvkC_AmjdqpLHgUa9MZf8qTroMCuOcPav0WNCC6CAsfRNiDxTmJp_MPOuWoWX0dQrDVZNVPiOlujv8UDPYZun7DpN8OlkXqJFfSpahpt-QkMXkQ1b-vn6qedYlblEGeIa6aCnubNsHmOOgIjD--NKEPXu5sROVUHwcE3BfAKHWGoQS9qPAy_1XDVmV-rCi1GM4FESjgVIjQ7YXBOSp8uzfz7vUOkFp5no0jHZ27IL-gTwCyCa1bMRx7MH3bHssz_DomI0ksJjeVUEs-iMDFRdkvAVlEs1nOR6hhrcU1Z-L6VkfGXU_yxonO4AAnUFvxVgJXkI3Q.wQbHbkDzmt2nUhl0.Kop-3aai2mv5lgzo.55nUzTctsf8sB2r8aJn2cw"
+  }
+}

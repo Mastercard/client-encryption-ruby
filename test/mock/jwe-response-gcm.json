@@ -1,0 +1,8 @@
+{
+  "request": {
+    "url": "/resource"
+  },
+  "body": {
+    "encrypted_data":"eyJhbGciOiJSU0EtT0FFUC0yNTYiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjoiNzYxYjAwM2MxZWFkZTNhNTQ5MGU1MDAwZDM3ODg3YmFhNWU2ZWMwZTIyNmMwNzcwNmU1OTk0NTFmYzAzMmE3OSIsImN0eSI6ImFwcGxpY2F0aW9uL2pzb24ifQ.GXFw4ELZLBJaQHyoEHoaR9Hcr4eWQG9IXWBh5luUDzzHZKawOp5HXuu91r-_gDA7lA-kJfP6uDhAlA7ijbk8rKjTnwszO-20IepjHI51SciMniV-LUsAl7D_yPxDkWGK1y7iyyYBVa-R6SjFC3fvSWfjgaZBsdzyu1LLwkYO_tcbwd82amSkfg5HZfiUAwNvMaX-Bp8yMW8vGiWS7trRS92MRCXuXlbef1qp86B4MvYCrqI0brgOM2UTslfkct13lcykuZLO23VQMoqcKLJhJY8Rf91mUn7sgIzvV-wym7orGJiUa9we5wuUXQfziFiJfW_6B3QDw5GgzHGmU8ugzg.rCAneIopRVMKL5ma.rYmFsND5yCpXQjiG5GUU9paPyC2tqws9j8Tu4iuP3Fj5zUvuEYDwp4ngWieQxH5i36jk8E0U71LNpIsqdxtaazMfENOMQF6NsAA-cAAjaiCSAMcObbw0DYzSvgJ6EAgRenH7Q3yA2rI.0mRHj7jyv_bfgrdM0Wai2A"
+  }
+}

@@ -246,4 +246,15 @@ class TestUtils < Minitest::Test
     McAPI::Utils.delete_node('', body, %w[prop prop2])
     assert_equal body, JSON.parse(JSON.generate("path": { "to": { "foo": { "field": 'value' } } }))
   end
+
+  def test_elem_from_path_not_valid_path
+    res = McAPI::Utils.elem_from_path('elem1.elem2', JSON.parse(JSON.generate(elem2: 'test')))
+    assert_nil res
+  end
+
+  def test_elem_from_path_valid_path
+    res = McAPI::Utils.elem_from_path('elem1.elem2', JSON.parse(JSON.generate(elem1: { elem2: 'test' })))
+    assert_equal res[:node], 'test'
+    assert_equal res[:parent], JSON.parse(JSON.generate(elem2: 'test'))
+  end
 end
