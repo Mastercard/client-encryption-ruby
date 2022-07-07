@@ -68,6 +68,7 @@ module McAPI
         if enc_method == "A256GCM"
           enc_string = "aes-256-gcm"
         elsif enc_method == "A128CBC-HS256"
+          cek = cek.byteslice(16, cek.length)
           enc_string = "aes-128-cbc"
         else
           raise Exception, "Encryption method '#{enc_method}' not supported."
@@ -78,11 +79,12 @@ module McAPI
         cipher.key = cek
         cipher.iv = iv
         cipher.padding = 0
-        cipher.auth_data = encrypted_header
-        cipher.auth_tag = cipher_tag
+        if enc_method == "A256GCM"
+          cipher.auth_data = encrypted_header
+          cipher.auth_tag = cipher_tag
+        end
 
-        plain_text = cipher.update(cipher_text) + cipher.final
-        plain_text
+        cipher.update(cipher_text) + cipher.final
       end
 
       private
@@ -92,8 +94,7 @@ module McAPI
       end
 
       def generate_header(alg, enc)
-        header = { alg: alg, enc: enc, kid: @public_key_fingerprint, cty: 'application/json' }
-        header
+        { alg: alg, enc: enc, kid: @public_key_fingerprint, cty: 'application/json' }
       end
 
       def jwe_encode(payload)

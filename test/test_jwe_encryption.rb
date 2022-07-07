@@ -92,4 +92,11 @@ class TestJweEncryption < Minitest::Test
     assert_equal decrypted['body']['mapping']['customer_identifier'], 'CUST_12345'
     assert !decrypted['body']['encrypted_data']
   end
+
+  def test_decrypt_cbc
+    resp = File.read('./test/mock/jwe-response-cbc.json')
+    jwe = McAPI::Encryption::JweEncryption.new(@test_config)
+    decrypted = JSON.parse(jwe.decrypt(resp))
+    assert !decrypted['body']['encrypted_data']
+  end
 end
