@@ -40,7 +40,7 @@ module McAPI
           # Hooking ApiClient#call_api
           hook_call_api jwe
           # Hooking ApiClient#deserialize
-          hook_deserialize_jwe jwe
+          hook_deserialize jwe
           McAPI::Encryption::OpenAPIInterceptor.init_call_api swagger_client
           McAPI::Encryption::OpenAPIInterceptor.init_deserialize swagger_client
         end
@@ -65,32 +65,20 @@ module McAPI
           end
         end
 
-        def hook_deserialize(fle)
+        def hook_deserialize(enc)
           self.class.send :define_method, :init_deserialize do |client|
             client.define_singleton_method(:deserialize) do |response, return_type|
               if response&.body
                 endpoint = response.request.base_url.sub client.config.base_url, ''
-                to_decrypt = { headers: McAPI::Utils.parse_header(response.options[:response_headers]),
-                               request: { url: endpoint },
-                               body: JSON.parse(response.body) }
-                decrypted = fle.decrypt(JSON.generate(to_decrypt, symbolize_names: false))
-                body = JSON.generate(JSON.parse(decrypted)['body'])
-                response.options[:response_body] = JSON.generate(JSON.parse(body))
-              end
-              # noinspection RubySuperCallWithoutSuperclassInspection
-              super(response, return_type)
-            end
-          end
-        end
-
-        def hook_deserialize_jwe(jwe)
-          self.class.send :define_method, :init_deserialize do |client|
-            client.define_singleton_method(:deserialize) do |response, return_type|
-              if response&.body
-                endpoint = response.request.base_url.sub client.config.base_url, ''
-                to_decrypt = { request: { url: endpoint },
-                               body: JSON.parse(response.body) }
-                decrypted = jwe.decrypt(JSON.generate(to_decrypt, symbolize_names: false))
+                if enc.instance_of? McAPI::Encryption::FieldLevelEncryption
+                  to_decrypt = { headers: McAPI::Utils.parse_header(response.options[:response_headers]),
+                                 request: { url: endpoint },
+                                 body: JSON.parse(response.body) }
+                else
+                  to_decrypt = { request: { url: endpoint },
+                                 body: JSON.parse(response.body) }
+                end
+                decrypted = enc.decrypt(JSON.generate(to_decrypt, symbolize_names: false))
                 body = JSON.generate(JSON.parse(decrypted)['body'])
                 response.options[:response_body] = JSON.generate(JSON.parse(body))
               end
