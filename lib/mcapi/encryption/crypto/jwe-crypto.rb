@@ -13,6 +13,11 @@ module McAPI
     # JWE Crypto class provide RSA/AES encrypt/decrypt methods
     #
     class JweCrypto
+      #
+      # Create a new instance with the provided config
+      #
+      # @param [Hash] config configuration object
+      #
       def initialize(config)
         @encoding = config['dataEncoding']
         @cert = OpenSSL::X509::Certificate.new(IO.binread(config['encryptionCertificate']))
@@ -25,6 +30,13 @@ module McAPI
         @public_key_fingerprint = compute_public_fingerprint
       end
 
+      #
+      # Perform data encryption:
+      #
+      # @param [String] data json string to encrypt
+      #
+      # @return [Hash] encrypted data
+      #
       def encrypt_data(data:)
         cek = SecureRandom.random_bytes(32)
         iv = SecureRandom.random_bytes(12)
@@ -50,6 +62,13 @@ module McAPI
         }
       end
 
+      #
+      # Perform data decryption
+      #
+      # @param [String] encrypted_data encrypted data to decrypt
+      #
+      # @return [String] Decrypted JSON object
+      #
       def decrypt_data(encrypted_data:)
         parts = encrypted_data.split('.')
         encrypted_header, encrypted_key, initialization_vector, cipher_text, authentication_tag = parts
@@ -89,27 +108,65 @@ module McAPI
 
       private
 
+      #
+      # Compute the fingerprint for the provided public key
+      #
+      # @return [String] the computed fingerprint encoded using the configured encoding
+      #
       def compute_public_fingerprint
         OpenSSL::Digest::SHA256.new(@cert.public_key.to_der).to_s
       end
 
+      #
+      # Generate the JWE header for the provided encryption algorithm and encryption method
+      #
+      # @param [String] alg the cryptographic algorithm used to encrypt the value of the CEK
+      # @param [String] enc the content encryption algorithm used to perform authenticated encryption on the plaintext
+      #
+      # @return [Hash] the JWE header
+      #
       def generate_header(alg, enc)
         { alg: alg, enc: enc, kid: @public_key_fingerprint, cty: 'application/json' }
       end
 
-      def jwe_encode(payload)
-        ::Base64.urlsafe_encode64(payload).delete('=')
+      #
+      # URL safe Base64 encode the provided value
+      #
+      # @param [String] value to be encoded
+      #
+      # @return [String] URL safe Base64 encoded value
+      #
+      def jwe_encode(value)
+        ::Base64.urlsafe_encode64(value).delete('=')
       end
 
-      def jwe_decode(payload)
-        padlen = 4 - (payload.length % 4)
+      #
+      # URL safe Base64 decode the provided value
+      #
+      # @param [String] value to be decoded
+      #
+      # @return [String] URL safe Base64 decoded value
+      #
+      def jwe_decode(value)
+        padlen = 4 - (value.length % 4)
         if padlen < 4
           pad = '=' * padlen
-          payload += pad
+          value += pad
         end
-        ::Base64.urlsafe_decode64(payload)
+        ::Base64.urlsafe_decode64(value)
       end
 
+      #
+      # Generate JWE compact payload from the provided values
+      #
+      # @param [String] hdr JWE header
+      # @param [String] cek content encryption key
+      # @param [String] content cipher text
+      # @param [String] iv initialization vector
+      # @param [String] tag cipher auth tag
+      #
+      # @return [String] URL safe Base64 decoded value
+      #
       def generate_serialization(hdr, cek, content, iv, tag)
         [hdr, cek, iv, content, tag].map { |piece| jwe_encode(piece) }.join '.'
       end

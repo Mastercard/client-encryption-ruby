@@ -164,6 +164,9 @@ module McAPI
       nil
     end
 
+    #
+    # Check whether the encryption/decryption path refers to the root element
+    #
     def self.json_root?(elem)
       elem == '$'
     end
