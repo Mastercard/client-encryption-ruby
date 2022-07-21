@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = 'mastercard-client-encryption'
-  spec.version = '1.1.0'
+  spec.version = '1.2.0'
   spec.authors = ['Mastercard']
   spec.required_ruby_version = '>= 2.4.4'
 
