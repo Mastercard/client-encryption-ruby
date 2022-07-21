@@ -143,6 +143,7 @@ Content-Type: application/json
     McAPI::Encryption::OpenAPIInterceptor.install_jwe_encryption(api_client, @jwe_config)
     response_body = JSON.generate(JSON.parse(File.read('./test/mock/jwe-response-interceptor.json')))
     response = Response.new('https://api.mastercard.com/example_api/mappings/search', response_body)
+    response.options[:response_headers] = RAW_HEADER
     decrypted = api_client.deserialize(response, Response)
     assert decrypted
     assert decrypted.options
