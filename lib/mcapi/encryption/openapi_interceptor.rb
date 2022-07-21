@@ -70,14 +70,10 @@ module McAPI
             client.define_singleton_method(:deserialize) do |response, return_type|
               if response&.body
                 endpoint = response.request.base_url.sub client.config.base_url, ''
-                if enc.instance_of? McAPI::Encryption::FieldLevelEncryption
-                  to_decrypt = { headers: McAPI::Utils.parse_header(response.options[:response_headers]),
-                                 request: { url: endpoint },
-                                 body: JSON.parse(response.body) }
-                else
-                  to_decrypt = { request: { url: endpoint },
-                                 body: JSON.parse(response.body) }
-                end
+                to_decrypt = { headers: McAPI::Utils.parse_header(response.options[:response_headers]),
+                               request: { url: endpoint },
+                               body: JSON.parse(response.body) }
+
                 decrypted = enc.decrypt(JSON.generate(to_decrypt, symbolize_names: false))
                 body = JSON.generate(JSON.parse(decrypted)['body'])
                 response.options[:response_body] = JSON.generate(JSON.parse(body))
