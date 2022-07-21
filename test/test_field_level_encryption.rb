@@ -3,6 +3,7 @@
 require 'minitest/autorun'
 require 'minitest/mock'
 require_relative '../lib/mcapi/encryption/field_level_encryption'
+require_relative '../lib/mcapi/encryption/utils/utils'
 require 'json'
 
 class TestFieldLevelEncryption < Minitest::Test
@@ -128,19 +129,6 @@ class TestFieldLevelEncryption < Minitest::Test
     fle = McAPI::Encryption::FieldLevelEncryption.new(@test_config)
     response = JSON.generate(request: { url: '/foobar' }, body: 'abc')
     assert_equal JSON.parse(fle.decrypt(response))['body'], 'abc'
-  end
-
-  def test_elem_from_path_valid_path
-    fle = McAPI::Encryption::FieldLevelEncryption.new(@test_config)
-    res = fle.send :elem_from_path, 'elem1.elem2', JSON.parse(JSON.generate(elem1: { elem2: 'test' }))
-    assert_equal res[:node], 'test'
-    assert_equal res[:parent], JSON.parse(JSON.generate(elem2: 'test'))
-  end
-
-  def test_elem_from_path_not_valid_path
-    fle = McAPI::Encryption::FieldLevelEncryption.new(@test_config)
-    res = fle.send :elem_from_path, 'elem1.elem2', JSON.parse(JSON.generate(elem2: 'test'))
-    assert_nil res
   end
 
   def test_encrypt_body_payload_with_readme_config

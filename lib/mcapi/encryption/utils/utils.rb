@@ -146,5 +146,45 @@ module McAPI
       end
       header
     end
+
+    #
+    # Get an element from the JSON path
+    #
+    def self.elem_from_path(path, obj)
+      parent = nil
+      paths = path.split('.')
+      if path && !paths.empty?
+        paths.each do |e|
+          parent = obj
+          obj = json_root?(e) ? obj : obj[e]
+        end
+      end
+      { node: obj, parent: parent }
+    rescue StandardError
+      nil
+    end
+
+    #
+    # Check whether the encryption/decryption path refers to the root element
+    #
+    def self.json_root?(elem)
+      elem == '$'
+    end
+
+    def self.config?(endpoint, config)
+      return unless endpoint
+
+      endpoint = endpoint.split('?').shift
+      conf = config['paths'].select { |e| endpoint.match(e['path']) }
+      conf.empty? ? nil : conf[0]
+    end
+
+    def self.compute_body(config_param, body_map)
+      encryption_param?(config_param, body_map) ? body_map[0] : yield
+    end
+
+    def self.encryption_param?(enc_param, body_map)
+      enc_param.length == 1 && body_map.length == 1
+    end
   end
 end

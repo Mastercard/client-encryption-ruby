@@ -2,6 +2,7 @@
 
 require_relative 'crypto/crypto'
 require_relative 'utils/hash.ext'
+require_relative 'utils/utils'
 require 'json'
 
 module McAPI
@@ -36,7 +37,7 @@ module McAPI
       #
       def encrypt(endpoint, header, body)
         body = JSON.parse(body) if body.is_a?(String)
-        config = config?(endpoint)
+        config = McAPI::Utils.config?(endpoint, @config)
         body_map = body
         if config
           if !@is_with_header
@@ -50,7 +51,7 @@ module McAPI
             end
           end
         end
-        { header: header, body: config ? compute_body(config['toEncrypt'], body_map) { body.json } : body.json }
+        { header: header, body: config ? McAPI::Utils.compute_body(config['toEncrypt'], body_map) { body.json } : body.json }
       end
 
       #
@@ -62,7 +63,7 @@ module McAPI
       #
       def decrypt(response)
         response = JSON.parse(response)
-        config = config?(response['request']['url'])
+        config = McAPI::Utils.config?(response['request']['url'], @config)
         body_map = response
         if config
           if !@is_with_header
@@ -71,31 +72,31 @@ module McAPI
             end
           else
             config['toDecrypt'].each do |v|
-              elem = elem_from_path(v['obj'], response['body'])
+              elem = McAPI::Utils.elem_from_path(v['obj'], response['body'])
               decrypt_with_header(v, elem, response) if elem[:node][v['element']]
             end
           end
         end
-        response['body'] = compute_body(config['toDecrypt'], body_map) { response['body'] } unless config.nil?
+        response['body'] = McAPI::Utils.compute_body(config['toDecrypt'], body_map) { response['body'] } unless config.nil?
         JSON.generate(response)
       end
 
       private
 
       def encrypt_with_body(path, body)
-        elem = elem_from_path(path['element'], body)
+        elem = McAPI::Utils.elem_from_path(path['element'], body)
         return unless elem && elem[:node]
 
         encrypted_data = @crypto.encrypt_data(data: JSON.generate(elem[:node]))
         body = McAPI::Utils.mutate_obj_prop(path['obj'], encrypted_data, body)
-        unless json_root?(path['obj']) || path['element'] == "#{path['obj']}.#{@config['encryptedValueFieldName']}"
+        unless McAPI::Utils.json_root?(path['obj']) || path['element'] == "#{path['obj']}.#{@config['encryptedValueFieldName']}"
           McAPI::Utils.delete_node(path['element'], body)
         end
         body
       end
 
       def encrypt_with_header(path, enc_params, header, body)
-        elem = elem_from_path(path['element'], body)
+        elem = McAPI::Utils.elem_from_path(path['element'], body)
         return unless elem && elem[:node]
 
         encrypted_data = @crypto.encrypt_data(data: JSON.generate(elem[:node]), encryption_params: enc_params)
@@ -105,7 +106,7 @@ module McAPI
       end
 
       def decrypt_with_body(path, body)
-        elem = elem_from_path(path['element'], body)
+        elem = McAPI::Utils.elem_from_path(path['element'], body)
         return unless elem && elem[:node]
 
         decrypted = @crypto.decrypt_data(elem[:node][@config['encryptedValueFieldName']],
@@ -130,45 +131,11 @@ module McAPI
                                                            response['headers'][@config['oaepHashingAlgorithmHeaderName']][0]))
       end
 
-      def elem_from_path(path, obj)
-        parent = nil
-        paths = path.split('.')
-        if path && !paths.empty?
-          paths.each do |e|
-            parent = obj
-            obj = json_root?(e) ? obj : obj[e]
-          end
-        end
-        { node: obj, parent: parent }
-      rescue StandardError
-        nil
-      end
-
-      def config?(endpoint)
-        return unless endpoint
-
-        endpoint = endpoint.split('?').shift
-        conf = @config['paths'].select { |e| endpoint.match(e['path']) }
-        conf.empty? ? nil : conf[0]
-      end
-
       def set_header(header, params)
         header[@config['encryptedKeyHeaderName']] = params[:encoded][:encryptedKey]
         header[@config['ivHeaderName']] = params[:encoded][:iv]
         header[@config['oaepHashingAlgorithmHeaderName']] = params[:oaepHashingAlgorithm].sub('-', '')
         header[@config['publicKeyFingerprintHeaderName']] = params[:publicKeyFingerprint]
-      end
-
-      def json_root?(elem)
-        elem == '$'
-      end
-
-      def compute_body(config_param, body_map)
-        encryption_param?(config_param, body_map) ? body_map[0] : yield
-      end
-
-      def encryption_param?(enc_param, body_map)
-        enc_param.length == 1 && body_map.length == 1
       end
     end
   end

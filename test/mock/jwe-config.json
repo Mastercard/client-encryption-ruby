@@ -1,0 +1,52 @@
+{
+  "paths": [
+    {
+      "path": "/mappings/*",
+      "toEncrypt": [
+        {
+          "element": "mapping.customer_identifier",
+          "obj": "encrypted_payload"
+        }
+      ],
+      "toDecrypt": [
+        {
+          "element": "encrypted_payload",
+          "obj": "mapping.customer_identifier"
+        }
+      ]
+    },
+    {
+      "path": "/resource",
+      "toEncrypt": [
+        {
+          "element": "$",
+          "obj": "$"
+        }
+      ],
+      "toDecrypt": [
+        {
+          "element": "$",
+          "obj": "$"
+        }
+      ]
+    },
+    {
+      "path": "/arrays",
+      "toEncrypt": [
+        {
+          "element": "$",
+          "obj": "$"
+        }
+      ],
+      "toDecrypt": [
+        {
+          "element": "$",
+          "obj": "$"
+        }
+      ]
+    }
+  ],
+  "encryptedValueFieldName": "encrypted_data",
+  "encryptionCertificate": "./test/res/test_certificate-2048.pem",
+  "privateKey": "./test/res/test_key_pkcs8-2048.pem"
+}
