@@ -76,6 +76,9 @@ module McAPI
 
                 decrypted = enc.decrypt(JSON.generate(to_decrypt, symbolize_names: false))
                 body = JSON.generate(JSON.parse(decrypted)['body'])
+                if enc.instance_of? McAPI::Encryption::JweEncryption
+                  body = McAPI::Utils.parse_decrypted_payload(body)
+                end
                 response.options[:response_body] = JSON.generate(JSON.parse(body))
               end
               # noinspection RubySuperCallWithoutSuperclassInspection

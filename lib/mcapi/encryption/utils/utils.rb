@@ -186,5 +186,14 @@ module McAPI
     def self.encryption_param?(enc_param, body_map)
       enc_param.length == 1 && body_map.length == 1
     end
+
+    def self.parse_decrypted_payload(payload)
+      parsed_payload =  payload.gsub("\\u000f", "")
+      parsed_payload = parsed_payload.gsub("\\", "")
+      if parsed_payload[0] == "\""
+        parsed_payload = parsed_payload.delete_prefix('"').delete_suffix('"')
+      end
+      parsed_payload
+    end
   end
 end
