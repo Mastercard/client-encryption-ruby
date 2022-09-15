@@ -97,7 +97,6 @@ module McAPI
         cipher.decrypt
         cipher.key = cek
         cipher.iv = iv
-        cipher.padding = 0
         if enc_method == "A256GCM"
           cipher.auth_data = encrypted_header
           cipher.auth_tag = cipher_tag
