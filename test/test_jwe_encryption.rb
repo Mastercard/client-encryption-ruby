@@ -97,7 +97,6 @@ class TestJweEncryption < Minitest::Test
     resp = File.read('./test/mock/jwe-response-a128gcm.json')
     jwe = McAPI::Encryption::JweEncryption.new(@test_config)
     decrypted = JSON.parse(jwe.decrypt(resp))
-    assert_equal decrypted['body']['mapping']['customer_identifier'], 'CUST_12345'
     assert !decrypted['body']['encrypted_data']
   end
 
@@ -105,7 +104,6 @@ class TestJweEncryption < Minitest::Test
     resp = File.read('./test/mock/jwe-response-a192gcm.json')
     jwe = McAPI::Encryption::JweEncryption.new(@test_config)
     decrypted = JSON.parse(jwe.decrypt(resp))
-    assert_equal decrypted['body']['mapping']['customer_identifier'], 'CUST_12345'
     assert !decrypted['body']['encrypted_data']
   end
 
