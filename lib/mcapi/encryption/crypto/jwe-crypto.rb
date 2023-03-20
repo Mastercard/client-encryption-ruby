@@ -86,6 +86,10 @@ module McAPI
 
         if enc_method == "A256GCM"
           enc_string = "aes-256-gcm"
+        elsif enc_method == "A128GCM"
+          enc_string = "aes-128-gcm"
+        elsif enc_method == "A192GCM"
+          enc_string = "aes-192-gcm"
         elsif enc_method == "A128CBC-HS256"
           cek = cek.byteslice(16, cek.length)
           enc_string = "aes-128-cbc"
@@ -98,6 +102,12 @@ module McAPI
         cipher.key = cek
         cipher.iv = iv
         if enc_method == "A256GCM"
+          cipher.auth_data = encrypted_header
+          cipher.auth_tag = cipher_tag
+        elsif enc_method == "A128GCM"
+          cipher.auth_data = encrypted_header
+          cipher.auth_tag = cipher_tag
+        elsif enc_method == "A192GCM"
           cipher.auth_data = encrypted_header
           cipher.auth_tag = cipher_tag
         end
