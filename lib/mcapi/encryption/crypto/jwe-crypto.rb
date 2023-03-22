@@ -99,13 +99,7 @@ module McAPI
         cipher.decrypt
         cipher.key = cek
         cipher.iv = iv
-        if enc_method == "A256GCM"
-          cipher.auth_data = encrypted_header
-          cipher.auth_tag = cipher_tag
-        elsif enc_method == "A128GCM"
-          cipher.auth_data = encrypted_header
-          cipher.auth_tag = cipher_tag
-        elsif enc_method == "A192GCM"
+        if enc_method == "A256GCM" || enc_method == "A128GCM" || enc_method == "A192GCM"
           cipher.auth_data = encrypted_header
           cipher.auth_tag = cipher_tag
         end
