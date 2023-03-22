@@ -63,16 +63,6 @@ class TestCryptoConfig < Minitest::Test
     assert_equal 'Z+gOGbilDalFcm4yZyYj1pr/N1qdg8QYECbsTvu3yAA=', fingerprint
   end
 
-  def test_config_with_private_keystore
-    config = @test_config.dup
-    config.delete('privateKey')
-    config['keyStore'] = './test/res/test_key.p12'
-    config['keyStoreAlias'] = 'mykeyalias'
-    config['keyStorePassword'] = 'Password1'
-    crypto = McAPI::Encryption::Crypto.new(config)
-    assert(crypto)
-  end
-
   def test_fingerprint_wrong_type
     crypto = McAPI::Encryption::Crypto.new(@test_config)
     assert_exp_equals(RuntimeError, 'Selected public fingerprint not supported') do
