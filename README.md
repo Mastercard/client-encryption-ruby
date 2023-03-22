@@ -16,6 +16,7 @@
   - [References](#references)
 - [Usage](#usage)
   - [Prerequisites](#prerequisites)
+    - [Loading the Decryption Key](#loading-the-decryption-key)
   - [Adding the Library to Your Project](#adding-the-libraries-to-your-project)
   - [Performing Field Level Encryption and Decryption](#performing-payload-encryption-and-decryption)
   - [Integrating with OpenAPI Generator API Client Libraries](#integrating-with-openapi-generator-api-client-libraries)
@@ -43,6 +44,21 @@ As part of this set up, you'll receive:
 
 - A public request encryption certificate (aka _Client Encryption Keys_)
 - A private response decryption key (aka _Mastercard Encryption Keys_)
+
+#### Loading the Decryption Key <a name="loading-the-decryption-key"></a>
+
+By default, the decryption key will be given in as a PKCS#12 password-protected file.
+The key can be loaded using either of the 2 methods below.
+
+1. The following code shows how to load the decryption key using `OpenSSL`:
+```ruby
+require 'openssl'
+
+is = File.binread("<insert PKCS#12 key file path>");
+signing_key = OpenSSL::PKCS12.new(is, "<insert key password>").key;
+```
+
+2. Follow our guide on [Exporting Your Signing Key](https://developer.mastercard.com/platform/documentation/security-and-authentication/using-oauth-1a-to-access-mastercard-apis/#exporting-your-signing-key)
 
 ### Installation <a name="adding-the-libraries-to-your-project"></a>
 

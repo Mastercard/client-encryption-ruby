@@ -23,8 +23,6 @@ module McAPI
         @cert = OpenSSL::X509::Certificate.new(IO.binread(config['encryptionCertificate']))
         if config['privateKey']
           @private_key = OpenSSL::PKey.read(IO.binread(config['privateKey']))
-        elsif config['keyStore']
-          @private_key = OpenSSL::PKCS12.new(IO.binread(config['keyStore']), config['keyStorePassword']).key
         end
         @encrypted_value_field_name = config['encryptedValueFieldName'] || 'encryptedData'
         @public_key_fingerprint = compute_public_fingerprint
